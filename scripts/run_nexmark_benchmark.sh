@@ -3,8 +3,10 @@
 echo "=== Nexmark Benchmark Automation Script ==="
 
 # Set base directories
+FLINK_HOME="/usr/lib/flink"
 NEXMARK_HOME="/home/hadoop/nexmark-emr"
 SCRIPTS_DIR="/home/hadoop/nexmark-emr/scripts"
+QUERIES_DIR="$NEXMARK_HOME/nexmark-flink/src/main/resources/queries"
 
 # Color-coding output for more visibility
 GREEN='\033[0;32m'
@@ -25,9 +27,9 @@ if ls /tmp/nexmark-q*.sql 1> /dev/null 2>&1; then
     echo "SQL files already exist in /tmp, skipping generation"
 else
     echo "No SQL files found in /tmp, generating now..."
-    java -cp "target/nexmark-flink-0.3-SNAPSHOT.jar:/usr/lib/flink/lib/*" \
-        com.github.nexmark.flink.SQLFileGenerator \
-        src/main/resources/queries
+    java -cp "$NEXMARK_HOME/nexmark-flink/target/nexmark-flink-0.3-SNAPSHOT.jar:$FLINK_HOME/lib/*" \
+    com.github.nexmark.flink.SQLFileGenerator \
+    "$QUERIES_DIR"
     if [ $? -ne 0 ]; then
         echo -e "${RED}SQL file generation failed${NC}"
         exit 1
@@ -54,7 +56,7 @@ RESULTS_FILE=$(ls -t /tmp/results-* | head -n1)
 echo "Processing results file: $RESULTS_FILE"
 
 # Run Python script
-python python/process_results.py "$RESULTS_FILE"
+python process_results.py "$RESULTS_FILE"
 if [ $? -ne 0 ]; then
     echo -e "${RED}Python processing failed${NC}"
     deactivate
