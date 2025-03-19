@@ -14,8 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SequentialQueryRunner {
-    private static final Logger LOG = LoggerFactory.getLogger(SequentialQueryRunner.class);
+public class SequentialQueryRunner2 {
+    private static final Logger LOG = LoggerFactory.getLogger(SequentialQueryRunner2.class);
     private final Path flinkDist;
     private final Path sqlFilesDir;
     private final String jmAddress;
@@ -23,7 +23,7 @@ public class SequentialQueryRunner {
     private final String masterFilePath;
     private final FlinkRestClient flinkRestClient;
 
-    public SequentialQueryRunner(String flinkHome, String sqlFilesDir, String jmAddress, int jmPort, String masterFilePath) {
+    public SequentialQueryRunner2(String flinkHome, String sqlFilesDir, String jmAddress, int jmPort, String masterFilePath) {
         this.flinkDist = Paths.get(flinkHome);
         this.sqlFilesDir = Paths.get(sqlFilesDir);
         this.jmAddress = jmAddress;
@@ -203,7 +203,7 @@ public class SequentialQueryRunner {
             LOG.info("Started Flink session at {}:{}", jmAddress, jmPort);
             LOG.info("Results will be written to: {}", masterFilePath);
     
-            SequentialQueryRunner runner = new SequentialQueryRunner(
+            SequentialQueryRunner2 runner = new SequentialQueryRunner2(
                 flinkHome, "/tmp", jmAddress, jmPort, masterFilePath);
     
             if (specificQuery != null) {
